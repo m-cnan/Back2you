@@ -1,21 +1,27 @@
-const express = require("express");
-const router = express.Router();
-const findMatches = require("../match");
+require("dotenv").config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-router.post("/", async (req, res) => {
-    const { lostItem } = req.body;
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+async function matchLostAndFound(lostItem, foundItem) {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+    const prompt = `
+        Compare these two items and check if they are likely the same:
+        Lost Item: ${JSON.stringify(lostItem)}
+        Found Item: ${JSON.stringify(foundItem)}
+        Respond with "MATCH" if they are likely the same, otherwise "NO MATCH".
+    `;
 
     try {
-        const match = await findMatches(lostItem);
-        if (match) {
-            res.json({ success: true, match });
-        } else {
-            res.json({ success: false, message: "No matches found." });
-        }
-    } catch (error) {
-        console.error("Error in match route:", error);
-        res.status(500).json({ success: false, message: "Server error." });
-    }
-});
+        const result = await model.generateContent(prompt);
+        const response = result.response.text();
 
-module.exports = router;
+        return response.includes("MATCH");
+    } catch (error) {
+        console.error("Error with Gemini API:", error);
+        return false;
+    }
+}
+
+module.exports = matchLostAndFound;
