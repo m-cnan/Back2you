@@ -19,12 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
 async function submitItem(type) {
     const formData = new FormData();
     const name = document.getElementById("name").value;
+    const type = document.getElementById("type").value;
     const description = document.getElementById("description").value;
     const location = document.getElementById("location").value;
     const email = document.getElementById("email").value;
     const number = document.getElementById("number").value;
 
     formData.append("name", name);
+    formData.append("type", type);
     formData.append("description", description);
     formData.append("location", location);
     formData.append("email", email);
