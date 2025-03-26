@@ -1,19 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const pool = require("../models/db"); // Database connection
+const { addItem, getItems } = require("../models/item");
 
-// Endpoint to post a lost item
+// POST request to report a lost item
 router.post("/", async (req, res) => {
     try {
-        const { item_name, description, location, contact_email } = req.body;
-        const result = await pool.query(
-            "INSERT INTO lost (item_name, description, location, contact_email) VALUES ($1, $2, $3, $4) RETURNING *",
-            [item_name, description, location, contact_email]
-        );
-        res.status(201).json({ message: "Lost item reported successfully", item: result.rows[0] });
+        const { type, name, location, image, email } = req.body;
+        const newItem = await addItem("lost", name, location, image, email);
+        res.status(201).json(newItem);
     } catch (error) {
-        console.error("Error reporting lost item:", error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET request to fetch lost items
+router.get("/", async (req, res) => {
+    try {
+        const items = await getItems("lost");
+        res.json(items);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
