@@ -36,7 +36,7 @@ async function submitItem(type) {
     }
 
     try {
-        const response = await fetch(/api/${type}, {
+        const response = await fetch('/api/${type}', {
             method: "POST",
             body: formData,
         });
