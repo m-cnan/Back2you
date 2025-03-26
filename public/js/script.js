@@ -1,69 +1,50 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Handle Lost Item Form Submission
     const lostForm = document.getElementById("lostForm");
+    const foundForm = document.getElementById("foundForm");
+
     if (lostForm) {
-        lostForm.addEventListener("submit", async (event) => {
+        lostForm.addEventListener("submit", async function (event) {
             event.preventDefault();
-
-            const formData = {
-                itemName: document.getElementById("itemName").value,
-                description: document.getElementById("description").value,
-                location: document.getElementById("location").value,
-                email: document.getElementById("email").value
-            };
-
-            try {
-                const response = await fetch("/api/lost", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert("Lost item reported successfully!");
-                    lostForm.reset();
-                } else {
-                    alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
-                console.error("Error reporting lost item:", error);
-                alert("Failed to report lost item. Please try again.");
-            }
+            await submitItem("lost");
         });
     }
 
-    // Handle Found Item Form Submission
-    const foundForm = document.getElementById("foundForm");
     if (foundForm) {
-        foundForm.addEventListener("submit", async (event) => {
+        foundForm.addEventListener("submit", async function (event) {
             event.preventDefault();
-
-            const formData = {
-                itemName: document.getElementById("itemName").value,
-                description: document.getElementById("description").value,
-                location: document.getElementById("location").value,
-                email: document.getElementById("email").value
-            };
-
-            try {
-                const response = await fetch("/api/found", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-                if (response.ok) {
-                    alert("Found item reported successfully!");
-                    foundForm.reset();
-                } else {
-                    alert(`Error: ${result.message}`);
-                }
-            } catch (error) {
-                console.error("Error reporting found item:", error);
-                alert("Failed to report found item. Please try again.");
-            }
+            await submitItem("found");
         });
     }
 });
+async function submitItem(type) {
+    const formData = new FormData();
+    const name = document.getElementById("name").value;
+    const description = document.getElementById("description").value;
+    const location = document.getElementById("location").value;
+    const email = document.getElementById("email").value;
+
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("location", location);
+    formData.append("email", email);
+
+    if (type === "found") {
+        const imageFile = document.getElementById("itemImage").files[0];
+        if (imageFile) {
+            formData.append("image", imageFile);
+        }
+    }
+
+    try {
+        const response = await fetch(/api/${type}, {
+            method: "POST",
+            body: formData,
+        });
+
+        const result = await response.json();
+        alert(result.message);
+    } catch (error) {
+        console.error("Error submitting item:", error);
+        alert("Failed to submit. Please try again later.");
+    }
+}
