@@ -5,10 +5,11 @@ const { addItem, getItems } = require("../models/item");
 // POST request to report a lost item
 router.post("/", async (req, res) => {
     try {
-        const { type, name, location, image, email } = req.body;
-        const newItem = await addItem("lost", name, type, location, image, email, number);
+        const { type, name, description, location, email, number } = req.body; // ✅ Added 'description'
+        const newItem = await addItem("lost", name, description, location, email, number); // ✅ Added 'description'
         res.status(201).json(newItem);
     } catch (error) {
+        console.error("Error in /api/lost:", error);
         res.status(500).json({ error: error.message });
     }
 });
@@ -19,6 +20,7 @@ router.get("/", async (req, res) => {
         const items = await getItems("lost");
         res.json(items);
     } catch (error) {
+        console.error("Error fetching lost items:", error);
         res.status(500).json({ error: error.message });
     }
 });

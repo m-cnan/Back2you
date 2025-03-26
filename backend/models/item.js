@@ -1,21 +1,31 @@
-const pool = require("../db"); // ✅ Correct path
+const db = require("../db"); // Ensure correct database connection
 
-// Function to add a lost or found item
-async function addItem(type, name, location, image, email) {
-    const query = `
-        INSERT INTO ${type}_items (type, name, location, image, email)
-        VALUES ($1, $2, $3, $4, $5) RETURNING *;
-    `;
-    const values = [type, name, location, image, email];
-    const result = await pool.query(query, values);
-    return result.rows[0];
+async function addItem(status, type, name, description, location, email, number) { 
+    try {
+        const query = `
+            INSERT INTO items (status, type, name, description, location, email, number) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
+        const values = [status, type, name, description, location, email, number];
+
+        const result = await db.query(query, values);
+        return result.rows[0];
+    } catch (error) {
+        console.error("Database error in addItem:", error);
+        throw error;
+    }
 }
 
-// Function to get all lost or found items
-async function getItems(type) {
-    const query = `SELECT * FROM ${type}_items ORDER BY created_at DESC;`;
-    const result = await pool.query(query);
-    return result.rows;
+async function getItems(status) {
+    try {
+        const query = "SELECT * FROM items WHERE status = $1";
+        const values = [status];
+
+        const result = await db.query(query, values);
+        return result.rows;
+    } catch (error) {
+        console.error("Database error in getItems:", error);
+        throw error;
+    }
 }
 
 module.exports = { addItem, getItems };
