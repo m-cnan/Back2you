@@ -1,4 +1,4 @@
-const pool = require("../config/db");
+const pool = require("../db"); // ✅ Correct path
 
 // Function to add a lost or found item
 async function addItem(type, name, location, image, email) {
