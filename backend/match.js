@@ -1,6 +1,6 @@
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 require("dotenv").config();
-const pool = require("./models/db"); // PostgreSQL connection
+const pool = require("./db"); // PostgreSQL connection
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 

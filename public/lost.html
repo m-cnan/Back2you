@@ -10,7 +10,6 @@
     <header>
         <h1>Report Lost Item</h1>
         <nav>
-    
             <button onclick="location.href='index.html'" class="home-btn">Home</button>
             <button onclick="location.href='found.html'" class="found-btn">Report Found Item</button>
         </nav>
@@ -21,8 +20,8 @@
             <label for="itemName">Item Name:</label>
             <input type="text" id="itemName" name="itemName" required>
 
-            <label for="itemtype">Item Type:</label>
-            <input type="text" id="type" name="type" required>
+            <label for="itemType">Item Type:</label>
+            <input type="text" id="itemType" name="itemType" required>
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>
@@ -33,8 +32,11 @@
             <label for="email">Your Email:</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="number">Your Ph no.:</label>
+            <label for="number">Your Phone No.:</label>
             <input type="number" id="number" name="number" required>
+
+            <label for="dateLost">Date Lost:</label>
+            <input type="date" id="dateLost" name="dateLost" required>
 
             <button type="submit">Submit</button>
         </form>
