@@ -1,8 +1,8 @@
-# 🔎 Back2You – Smarter Lost & Found System
+# 🔎 LISA – Smarter Lost & Found System
 
-**Back2You** is a secure, private, and efficient lost-and-found web platform designed to solve a fundamental flaw in traditional systems: **public exposure**. Most platforms let everyone browse lost and found items — making it easy for someone to falsely claim an item or misuse information.
+**LISA** (Lost Item Search Agent) is a secure, private, and efficient lost-and-found web platform designed to solve a fundamental flaw in traditional systems: **public exposure**. Most platforms let everyone browse lost and found items — making it easy for someone to falsely claim an item or misuse information.
 
-Back2You fixes that.
+LISA fixes that.
 
 ---
 
@@ -48,4 +48,4 @@ Back2You fixes that.
 1. **Clone the repository**
    ```bash
    git clone https://github.com/yourusername/Back2you.git
-   cd Back2you
+   cd LISA
