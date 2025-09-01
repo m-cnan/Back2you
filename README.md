@@ -47,5 +47,5 @@ LISA fixes that.
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/Back2you.git
+   git clone https://github.com/yourusername/LISA.git
    cd LISA
